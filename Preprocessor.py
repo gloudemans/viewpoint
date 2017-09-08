@@ -19,6 +19,8 @@ def process(file, res, span, frequency):
   
   fifo = np.zeros( (span+1,res,res,3), dtype=np.uint8)
   
+  f = open(file[:-3]+'vec', 'wb')
+  
   frame = 0
   while True:
     raw_image = pipe.stdout.read(length)
@@ -34,7 +36,11 @@ def process(file, res, span, frequency):
         p2 = (frame+span) % (span+1)
         tensor = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
         target = n/(span+1)
+        np.save(f, tensor)
+        np.save(f, target)
       frame += 1
       print(frame)
+    
+    fclose(f)
 
 process('20160109_094636A.mp4', 512, 100, 100)
