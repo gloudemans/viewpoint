@@ -32,7 +32,7 @@ def process(file, res, span, frequency):
         p0 = (frame+0) % (span+1)
         p1 = (frame+n) % (span+1)
         p2 = (frame+span) % (span+1)
-        tensor = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo(p2,:,:,:)) )
+        tensor = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
         target = n/(span+1)
       frame += 1
       print(frame)
