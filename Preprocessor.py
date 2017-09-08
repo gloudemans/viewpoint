@@ -19,7 +19,7 @@ def process(filename):
     success, frame = cap.read()
     if success == True:
  
-      count++
+      count +=1
   
       println( count )
  
