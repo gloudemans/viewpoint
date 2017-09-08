@@ -24,7 +24,7 @@ def process(file, res, span, frequency):
       break
     else:
       image = np.fromstring(raw_image, dtype='uint8')
-      image = np.reshape((res,res,3))
+      image = np.reshape(image, (res,res,3))
       frame += 1
       print(frame)
 
