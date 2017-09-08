@@ -8,7 +8,6 @@ def process(file, res, span, frequency):
 
   command = [ 'ffmpeg',
               '-i', file,
-              '-vf', 'scale={0}:{0}'.format(res),
               '-f', 'image2pipe',
               '-pix_fmt', 'rgb24',
               '-vcodec', 'rawvideo', '-']
@@ -24,7 +23,7 @@ def process(file, res, span, frequency):
       break
     else:
       image = np.fromstring(raw_image, dtype='uint8')
-      image = np.reshape(image, (res,res,3))
+      # image = np.reshape(image, (res,res,3))
       frame += 1
       print(frame)
 
