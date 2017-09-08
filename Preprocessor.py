@@ -7,7 +7,7 @@ import subprocess as sp
 def process(file, res, span, frequency):
 
   command = [ 'ffmpeg',
-              '-i', inputfile,
+              '-i', file,
               '-vf', 'scale={0}:{0}'.format(res),
               '-f', 'image2pipe',
               '-pix_fmt', 'rgb24',
