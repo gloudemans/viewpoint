@@ -1,37 +1,31 @@
-import cv2
-import numpy as np
+# Inspired by:
+# http://zulko.github.io/blog/2013/09/27/read-and-write-video-frames-in-python-using-ffmpeg/
 
-def process(filename):
+import numpy as np
+import subprocess as sp
+
+def process(file, res, span, frequency):
+
+  command = [ 'ffmpeg',
+              '-i', inputfile,
+              '-vf', 'scale={0}:{0}'.format(res),
+              '-f', 'image2pipe',
+              '-pix_fmt', 'rgb24',
+              '-vcodec', 'rawvideo', '-']
   
-  # Open file 
-  cap = cv2.VideoCapture(filename)
- 
-  # If open failed...
-  if cap.isOpened() == False: 
-    println("Error opening " + filename)
-    
-  count = 0
- 
-  # While frames remain...
-  while(cap.isOpened()):
+  pipe = sp.Popen(command, stdout = sp.PIPE, bufsize=6*10*res^2)
   
-    # Read frame
-    success, frame = cap.read()
-    if success == True:
- 
-      count +=1
+  length = 3*res^2
   
-      println( count )
- 
-    # Break the loop
-    else:
-    
+  frame = 0
+  while True:
+    raw_image = pipe.stdout.read(length)
+    if len(raw_image) < length:
       break
- 
-  # When everything done, release the video capture object
-  cap.release()
- 
-  # Closes all the frames
-  cv2.destroyAllWindows()
- 
-process('20160109_094636A.mp4')
+    else:
+      image = np.fromstring(raw_image, dtype='uint8')
+      image = np.reshape((res,res,3))
+      frame += 1
+      print(frame)
+
+process('20160109_094636A.mp4', 512, 100, 100)
