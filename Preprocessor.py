@@ -17,6 +17,8 @@ def process(file, res, span, frequency):
   
   length = 3*res**2
   
+  fifo = np.zeros( (span+1,res,res,3), dtype=uint8)
+  
   frame = 0
   while True:
     raw_image = pipe.stdout.read(length)
@@ -24,7 +26,14 @@ def process(file, res, span, frequency):
       break
     else:
       image = np.fromstring(raw_image, dtype='uint8')
-      image = np.reshape(image, (res,res,3))
+      fifo[frame % (span+1), :,:,:] = np.reshape(image, (res,res,3))
+      if frame and (frame%frequency)==0:
+        n =  np.random.randint(0, span+1);
+        p0 = (frame+0) % (span+1)
+        p1 = (frame+n) % (span+1)
+        p2 = (frame+span) % (span+1)
+        tensor = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo(p2,:,:,:)) )
+        target = n/(span+1)
       frame += 1
       print(frame)
 
