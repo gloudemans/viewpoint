@@ -21,3 +21,11 @@ We used a python script to process the video forming training input as follows. 
 The preprocessor iterates through the video decoding each frame at the output resolution and maintains a FIFO holding "span" frames. At intervals specified by the "frequency" argument, the preprocessor assembles a training sample by concatenating thre frame at the head of the FIFO, the frame at the tail of the FIFO, a frame drawn randomly from the FIFO, and the relative position of that calculated frame within the FIFO (if the frame is n frames from the end, its relative position is n/span). It saves the concatenated uncompressed resampled RGB frames and the relative position of the center frame as one training sample. The process continues until the entire video is processed and produces a single file with multiple training samples.
 
 Preprocessor.py should run acceptably on a single core Ubuntu 16.04 Google Compute Engine with no special memory requirements. It requires python and ffmpeg.
+
+On Google Compute Engine launch a standard Ubuntu 16.04 instance and run:
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo-apt-get install ffmpeg
+
+
