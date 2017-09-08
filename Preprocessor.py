@@ -17,7 +17,7 @@ def process(file, res, span, frequency):
   
   length = 3*res**2
   
-  fifo = np.zeros( (span+1,res,res,3), dtype=uint8)
+  fifo = np.zeros( (span+1,res,res,3), dtype=np.uint8)
   
   frame = 0
   while True:
