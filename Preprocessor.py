@@ -38,9 +38,10 @@ def process(file, res, span, frequency):
         target = n/(span+1)
         np.save(f, tensor)
         np.save(f, target)
+        print('Vector ' + str(target))
       frame += 1
       print(frame)
     
   f.close()
 
-process('20160109_094636A.mp4', 512, 100, 100)
+process('20160109_094636A.mp4', 512, 100, 3)
