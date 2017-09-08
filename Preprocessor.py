@@ -13,9 +13,9 @@ def process(file, res, span, frequency):
               '-pix_fmt', 'rgb24',
               '-vcodec', 'rawvideo', '-']
   
-  pipe = sp.Popen(command, stdout = sp.PIPE, bufsize=6*10*res^2)
+  pipe = sp.Popen(command, stdout = sp.PIPE, bufsize=6*10*res**2)
   
-  length = 3*res^2
+  length = 3*res**2
   
   frame = 0
   while True:
@@ -24,7 +24,7 @@ def process(file, res, span, frequency):
       break
     else:
       image = np.fromstring(raw_image, dtype='uint8')
-      # image = np.reshape(image, (res,res,3))
+      image = np.reshape(image, (res,res,3))
       frame += 1
       print(frame)
 
