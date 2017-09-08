@@ -9,6 +9,8 @@ def process(filename):
   # If open failed...
   if cap.isOpened() == False: 
     println("Error opening " + filename)
+    
+  count = 0
  
   # While frames remain...
   while(cap.isOpened()):
@@ -17,12 +19,9 @@ def process(filename):
     success, frame = cap.read()
     if success == True:
  
-      # Display the resulting frame
-      cv2.imshow('Frame', frame)
- 
-      # Press Q on keyboard to  exit
-      if cv2.waitKey(25) & 0xFF == ord('q'):
-        break
+      count++
+  
+      println( count )
  
     # Break the loop
     else:
@@ -34,3 +33,5 @@ def process(filename):
  
   # Closes all the frames
   cv2.destroyAllWindows()
+ 
+process('20160109_094636A.mp4')
