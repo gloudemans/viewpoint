@@ -41,6 +41,6 @@ def process(file, res, span, frequency):
       frame += 1
       print(frame)
     
-  close(f)
+  f.close()
 
 process('20160109_094636A.mp4', 512, 100, 100)
