@@ -8,7 +8,7 @@ def process(file, res, span, frequency):
 
   command = [ 'ffmpeg',
               '-i', file,
-              '-vf', 'scale=512:512',
+              '-vf', 'scale={0}:{0}'.format(res),
               '-f', 'image2pipe',
               '-pix_fmt', 'rgb24',
               '-vcodec', 'rawvideo', '-']
