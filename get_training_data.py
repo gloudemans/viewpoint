@@ -25,7 +25,7 @@ def get_training_data(filename, x, y, span, count):
                 image = np.fromstring(raw_image, dtype='uint8')
                 fifo[frame % (span+1), :,:,:] = np.reshape(image, (y,x,3))
                 if frame > span:
-                    if timer >= 0:
+                    while timer >= 0:
                         n =  np.random.randint(0, span+1);
                         p0 = (frame+0) % (span+1)
                         p1 = (frame+n) % (span+1)
