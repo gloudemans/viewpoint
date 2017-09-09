@@ -9,6 +9,9 @@ The project uses a deep convolutional neural network regression model operating 
 ## Collect video
 We mounted a [panoramic video camera](https://www.amazon.com/Andoer-Fisheye-Panorama-Activities-Camcorder/dp/B01JUFQMFW/ref=pd_sbs_421_16?_encoding=UTF8&pd_rd_i=B01JUFQMFW&pd_rd_r=KNNK4V678MFWVSHM7P1W&pd_rd_w=MjUET&pd_rd_wg=l9Yos&psc=1&refRID=KNNK4V678MFWVSHM7P1W) to the top of a car and drove around for about half an hour to gather raw video footage to train the system. The video is 2048 x 2048 pixels at 30 frames per second in MP4 format. The camera faces upward and maps a field of view approximately 220 degrees wide to a circle 2048 pixels in diameter on the imager.
 
+## Resize and video and save as raw
+ffmpeg 
+
 ## Transform video to training data
 We used a python script to process the video forming training input as follows. One aproach to preprocessing the video is to use OpenCV and iterate through the video extracting frames. Another approach is to call FFMPEG via python and route the FFMPEG output to python via a pipe. Based on my prior experience, instllation of OpenCV on Ubuntu 16.04 is painful, requiring dozens of steps and lots of troubleshooting, rebuilding, patching, etc. Installation of FFMPEG by contrast takes only a few moments, so I opted for this approach. The preprocessor python script accepts the following arguments:
 
@@ -24,35 +27,9 @@ Preprocessor.py should run acceptably on a single core Ubuntu 16.04 Google Compu
 
 ...
 
-Work in progress.
-
-On Google Compute Engine launch a standard Ubuntu 16.04 instance and run:
-
-sudo apt-get update
-sudo apt-get upgrade
-sudo-apt-get install ffmpeg
-
-sudo apt-get install python-pip  
-sudo pip install numpy
-
 and maintains a FIFO holding "span" frames. At intervals specified by the "frequency" argument, the preprocessor assembles a training sample by concatenating the frames at the head of the FIFO, the frame at the tail of the FIFO, a frame drawn randomly from the FIFO, and the relative position of that calculated frame within the FIFO (if the frame is n frames from the end, its relative position is n/span). It saves the concatenated uncompressed resampled RGB frames and the relative position of the center frame as one training sample. The process continues until the entire video is processed and produces a single file with multiple training samples.
 
-## Installing tensorflow with virtualenv
 
-# Bring ubuntu install up to date
-sudo apt-get update
-sudo apt-get upgrade
-
-# Install ffmpeg
-sudo apt-get install ffmpeg
-
-# Install tensorflow for python 3 without GPU suport
-sudo apt-get install python3-pip python3-dev python-virtualenv
-virtualenv --system-site-packages -p python3 tensorflow
-source ~/tensorflow/bin/activate
-easy_install -U pip
-pip3 install --upgrade tensorflow
-source ~/tensorflow/bin/activate
 
 # Install numpy and scipy
 sudo pip3 install numpy scipy
