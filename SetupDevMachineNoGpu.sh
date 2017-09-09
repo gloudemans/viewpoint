@@ -1,4 +1,4 @@
-# Run install from home directory so that tensofrflow virtualenv will
+# Run install from home directory so that tensorflow virtualenv will
 # be ~/tensorflow.
 cd ~
 
