@@ -9,6 +9,7 @@ def get_training_data(filename, x, y, span, count):
    
     length = 3*x*y
     frames = os.stat(filename).st_size/length
+    print(frames)
     interval = (frames-(span+1))/count
     timer = 0
     sample = 0
@@ -31,8 +32,9 @@ def get_training_data(filename, x, y, span, count):
                         p2 = (frame+span) % (span+1)
                         tensor[sample,:,:,:] = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
                         target[sample] = n/(span+1)
-                        timer = timer - interval
+                        timer -= interval
                         sample += 1
+                        print(sample)
                     timer += 1
                 frame += 1
     return(tensor, target)
