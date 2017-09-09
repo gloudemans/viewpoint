@@ -10,7 +10,15 @@ The project uses a deep convolutional neural network regression model operating 
 We mounted a [panoramic video camera](https://www.amazon.com/Andoer-Fisheye-Panorama-Activities-Camcorder/dp/B01JUFQMFW/ref=pd_sbs_421_16?_encoding=UTF8&pd_rd_i=B01JUFQMFW&pd_rd_r=KNNK4V678MFWVSHM7P1W&pd_rd_w=MjUET&pd_rd_wg=l9Yos&psc=1&refRID=KNNK4V678MFWVSHM7P1W) to the top of a car and drove around for about half an hour to gather raw video footage to train the system. The video is 2048 x 2048 pixels at 30 frames per second in MP4 format. The camera faces upward and maps a field of view approximately 220 degrees wide to a circle 2048 pixels in diameter on the imager.
 
 ## Resize and video and save as raw
-ffmpeg 
+We can use ffmpeg to decode and resize the video to 512x512 rgb frames and to save them in uncompressed raw format as follows.
+
+ffmpeg -i infile.mp4  -vf scale=X:Y -pix_fmt rgb24 -vcodec rawvideo outfile.rgb
+
+The resulting outfile will be raw binary data describing sequential frames. Each frame can be converted to a numpy array as follows:
+
+* raw_image = thefile.read(X*Y*3)                     # Read one frame
+* image =  numpy.fromstring(raw_image, dtype='uint8') # Change to a numpy array
+* image = image.reshape((Y,X,3))                      # Reshape the array
 
 ## Transform video to training data
 We used a python script to process the video forming training input as follows. One aproach to preprocessing the video is to use OpenCV and iterate through the video extracting frames. Another approach is to call FFMPEG via python and route the FFMPEG output to python via a pipe. Based on my prior experience, instllation of OpenCV on Ubuntu 16.04 is painful, requiring dozens of steps and lots of troubleshooting, rebuilding, patching, etc. Installation of FFMPEG by contrast takes only a few moments, so I opted for this approach. The preprocessor python script accepts the following arguments:
