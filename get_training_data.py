@@ -7,7 +7,7 @@ def get_training_data(filename, x, y, span, count):
     tensor = np.zeros( (count,y,x,3), dtype=np.uint8)
     target = np.zeros( (count), dtype=np.float32)
    
-    frame_length = 3*x*y
+    length = 3*x*y
     frames = os.stat(filename).st_size/length
     interval = (frames-(span+1))/count
     timer = 0
