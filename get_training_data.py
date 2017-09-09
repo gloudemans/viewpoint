@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-def get_training_data(filename, x, y, resolution, span, count):
+def get_training_data(filename, x, y, span, count):
 
     fifo = np.zeros( (span+1,y,x,3), dtype=np.uint8)
     tensor = n.zeros( (count,y,x,3), dtype=np.uint8)
