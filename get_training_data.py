@@ -10,7 +10,7 @@ def get_training_data(filename, x, y, span, count):
     length = 3*x*y
     frames = os.stat(filename).st_size/length
     print(frames)
-    interval = (frames-(span+1))/count
+    interval = (frames-(span+1))/(count+.5)
     timer = 0
     sample = 0
 
