@@ -4,7 +4,7 @@ import numpy as np
 def get_training_data(filename, x, y, span, count):
 
     fifo = np.zeros( (span+1,y,x,3), dtype=np.uint8)
-    tensor = n.zeros( (count,y,x,3), dtype=np.uint8)
+    tensor = np.zeros( (count,y,x,3), dtype=np.uint8)
     target = npzeros( (count), dtype=np.float32)
    
     frame_length = 3*x*y
