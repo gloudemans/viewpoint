@@ -1,3 +1,5 @@
+# Run install from home directory so that tensofrflow virtualenv will
+# be ~/tensorflow.
 cd ~
 
 # Bring ubuntu install up to date
