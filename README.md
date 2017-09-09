@@ -36,3 +36,23 @@ sudo apt-get install python-pip
 sudo pip install numpy
 
 and maintains a FIFO holding "span" frames. At intervals specified by the "frequency" argument, the preprocessor assembles a training sample by concatenating the frames at the head of the FIFO, the frame at the tail of the FIFO, a frame drawn randomly from the FIFO, and the relative position of that calculated frame within the FIFO (if the frame is n frames from the end, its relative position is n/span). It saves the concatenated uncompressed resampled RGB frames and the relative position of the center frame as one training sample. The process continues until the entire video is processed and produces a single file with multiple training samples.
+
+## Installing tensorflow with virtualenv
+
+# Bring ubuntu install up to date
+sudo apt-get update
+sudo apt-get upgrade
+
+# Install ffmpeg
+sudo apt-get install ffmpeg
+
+# Install tensorflow for python 3 without GPU suport
+sudo apt-get install python3-pip python3-dev python-virtualenv
+virtualenv --system-site-packages -p python3 tensorflow
+source ~/tensorflow/bin/activate
+easy_install -U pip
+pip3 install --upgrade tensorflow
+source ~/tensorflow/bin/activate
+
+# Install numpy and scipy
+sudo pip3 install numpy scipy
