@@ -13,7 +13,7 @@ def get_training_data(filename, x, y, span, count):
     timer = 0
     sample = 0
 
-    with open(filename) as f:
+    with open(filename,'rb') as f:
     
         frame = 0
         while True:
