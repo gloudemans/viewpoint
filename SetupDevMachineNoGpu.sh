@@ -1,3 +1,5 @@
+cd ~
+
 # Bring ubuntu install up to date
 sudo apt-get update
 sudo apt-get upgrade
