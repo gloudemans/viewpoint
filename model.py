@@ -42,8 +42,8 @@ def get_training_data(filename, x, y, span, count):
             p0 = (frame+0) % (span+1)
             p1 = (frame+n) % (span+1)
             p2 = (frame+span) % (span+1)
-            tensor[ia(sample),:,:,:] = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
-            target[ia(sample)] = n/(span+1)
+            tensor[ia[sample],:,:,:] = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
+            target[ia[sample]] = n/(span+1)
             timer -= interval
             sample += 1
             print(sample)
