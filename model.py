@@ -155,7 +155,9 @@ def main(_):
   train_writer = tf.summary.FileWriter(graph_location)
   train_writer.add_graph(tf.get_default_graph())
 
+  print('A')
   with tf.Session() as sess:
+    print('B')
     sess.run(tf.global_variables_initializer())
     for i in range(20000):
       print(i)
@@ -170,6 +172,7 @@ def main(_):
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
         x: tensor, y_: target, keep_prob: 1.0}))
+  print('C')
 
 if __name__ == '__main__':
   tf.app.run(main=main)
