@@ -128,7 +128,7 @@ def main(_):
   x = 512
   y = 512
   span = 100
-  count = 10
+  count = 100
   
   # Import data
   tensor, target = get_training_data(filename, x, y, span, count)
@@ -144,10 +144,6 @@ def main(_):
   # Build the graph for the deep net
   y_conv, keep_prob = deepnn(x)
   
-  print(tf.shape(x))
-  print(tf.shape(y_conv))
-  print(tf.shape(keep_prob))
-
   with tf.name_scope('loss'):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
 
@@ -163,7 +159,7 @@ def main(_):
   with tf.Session() as sess:
     print('B')
     sess.run(tf.global_variables_initializer())
-    for i in range(20000):
+    for i in range(10):
       print(i)
       k = (i*50) % count
       x_batch = tensor[k:k+50]
@@ -172,10 +168,10 @@ def main(_):
       print(x_batch.shape)
       print(y_batch.shape)
       
-      #if i % 100 == 0:
-      #  train_accuracy = accuracy.eval(feed_dict={
-      #      x: x_batch[0], y_: y_batch, keep_prob: 1.0})
-      #  print('step %d, training accuracy %g' % (i, train_accuracy))
+      if i % 100 == 0:
+        train_accuracy = accuracy.eval(feed_dict={
+            x: x_batch, y_: y_batch, keep_prob: 1.0})
+        print('step %d, training accuracy %g' % (i, train_accuracy))
       train_step.run(feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
