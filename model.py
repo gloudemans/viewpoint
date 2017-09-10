@@ -162,8 +162,12 @@ def main(_):
     for i in range(20000):
       print(i)
       k = (i*50) % count
-      x_batch = tensor[k:k+50,:,:,:]
-      y_batch = target[k:k+50,:]
+      x_batch = tensor[k:k+50]
+      y_batch = target[k:k+50]
+      
+      print(x_batch.shape())
+      print(y_batch.shape())
+      
       #if i % 100 == 0:
       #  train_accuracy = accuracy.eval(feed_dict={
       #      x: x_batch[0], y_: y_batch, keep_prob: 1.0})
