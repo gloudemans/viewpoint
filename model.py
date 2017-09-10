@@ -82,7 +82,7 @@ def deepnn(x):
     W_fc1 = weight_variable([128 * 128 * 64, 1024])
     b_fc1 = bias_variable([1024])
 
-    h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+    h_pool2_flat = tf.reshape(h_pool2, [-1, 128*128*64])
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
   # Dropout - controls the complexity of the model, prevents co-adaptation of
@@ -91,7 +91,7 @@ def deepnn(x):
     keep_prob = tf.placeholder(tf.float32)
     h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
-  # Map the 1024 features to 10 classes, one for each digit
+  # Map the 1024 features to 1 scalar
   with tf.name_scope('fc2'):
     W_fc2 = weight_variable([1024, 1])
     b_fc2 = bias_variable([1])
@@ -134,7 +134,7 @@ def main(_):
   tensor, target = get_training_data(filename, x, y, span, count)
 
   # Create the model
-  x = tf.placeholder(tf.float32, [None, 784])
+  # x = tf.placeholder(tf.float32, [None, 784])
 
   # Define loss and optimizer
   y_ = tf.placeholder(tf.float32, [None, 1])
@@ -157,15 +157,16 @@ def main(_):
     sess.run(tf.global_variables_initializer())
     for i in range(20000):
       k = i % count
-      batch = tensor[k:k+50]
+      x_batch = tensor[k:k+50]
+      y_batch = target[k:k+50]
       if i % 100 == 0:
         train_accuracy = accuracy.eval(feed_dict={
-            x: batch[0], y_: batch[1], keep_prob: 1.0})
+            x: x_batch[0], y_: y_batch, keep_prob: 1.0})
         print('step %d, training accuracy %g' % (i, train_accuracy))
-      train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
+      train_step.run(feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
-        x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
+        x: tensor, y_: target, keep_prob: 1.0}))
 
 if __name__ == '__main__':
   tf.app.run(main=main)
