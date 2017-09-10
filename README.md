@@ -16,7 +16,7 @@ ffmpeg -i infile.mp4  -vf scale=X:Y -pix_fmt rgb24 -vcodec rawvideo outfile.rgb
 
 The resulting outfile will be raw binary data describing sequential frames. Each frame can be converted to a numpy array as follows:
 
-* raw_image = thefile.read(X*Y*3)                     # Read one frame
+* raw_image = thefile.read(XxYx3)                     # Read all bytes of one frame
 * image =  numpy.fromstring(raw_image, dtype='uint8') # Change to a numpy array
 * image = image.reshape((Y,X,3))                      # Reshape the array
 
