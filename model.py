@@ -132,9 +132,11 @@ def main(_):
   
   # Import data
   tensor, target = get_training_data(filename, x, y, span, count)
-
+  tensor = tf.constant(tensor, tf.float32)
+  target = tf.constant(target, tf.float32)
+  
   # Create the model
-  # x = tf.placeholder(tf.float32, [None, 784])
+  x = tf.placeholder(tf.float32, [None, 512, 512, 9])
 
   # Define loss and optimizer
   y_ = tf.placeholder(tf.float32, [None, 1])
