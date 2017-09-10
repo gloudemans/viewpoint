@@ -146,7 +146,7 @@ def main(_):
   
   print(tf.shape(x))
   print(tf.shape(y_conv))
-  print(tf.shape(keep_prop))
+  print(tf.shape(keep_prob))
 
   with tf.name_scope('loss'):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
