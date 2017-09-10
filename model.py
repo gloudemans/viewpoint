@@ -16,7 +16,7 @@ def get_training_data(filename, x, y, span, count):
 
   fifo = np.zeros( (span+1,y,x,3), dtype=np.uint8)
   tensor = np.zeros( (count,y,x,9), dtype=np.uint8)
-  target = np.zeros( (count), dtype=np.float32)
+  target = np.zeros( (count,1), dtype=np.float32)
 
   length = 3*x*y
   frames = os.stat(filename).st_size/length
@@ -139,10 +139,14 @@ def main(_):
   x = tf.placeholder(tf.float32, [None, 512, 512, 9])
 
   # Define loss and optimizer
-  y_ = tf.placeholder(tf.float32, [None])
+  y_ = tf.placeholder(tf.float32, [None, 1])
 
   # Build the graph for the deep net
   y_conv, keep_prob = deepnn(x)
+  
+  print(shape(x))
+  print(shape(y_conv))
+  print(shape(keep_prop))
 
   with tf.name_scope('loss'):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
