@@ -144,9 +144,9 @@ def main(_):
   # Build the graph for the deep net
   y_conv, keep_prob = deepnn(x)
   
-  print(shape(x))
-  print(shape(y_conv))
-  print(shape(keep_prop))
+  print(tf.shape(x))
+  print(tf.shape(y_conv))
+  print(tf.shape(keep_prop))
 
   with tf.name_scope('loss'):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
