@@ -139,7 +139,7 @@ def main(_):
   x = tf.placeholder(tf.float32, [None, 512, 512, 9])
 
   # Define loss and optimizer
-  y_ = tf.placeholder(tf.float32, [None, 1])
+  y_ = tf.placeholder(tf.float32, [None])
 
   # Build the graph for the deep net
   y_conv, keep_prob = deepnn(x)
@@ -165,8 +165,8 @@ def main(_):
       x_batch = tensor[k:k+50]
       y_batch = target[k:k+50]
       
-      print(x_batch.shape())
-      print(y_batch.shape())
+      print(x_batch.shape)
+      print(y_batch.shape)
       
       #if i % 100 == 0:
       #  train_accuracy = accuracy.eval(feed_dict={
