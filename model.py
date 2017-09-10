@@ -52,15 +52,13 @@ def get_training_data(filename, x, y, span, count):
 
   return(tensor, target)
 
-
 def deepnn(x):
 
-  with tf.name_scope('reshape'):
-    x_image = tf.constant(x, dtype=tf.uint8)
+  x_image = x
 
   # First convolutional layer - maps one grayscale image to 32 feature maps.
   with tf.name_scope('conv1'):
-    W_conv1 = weight_variable([5, 5, 1, 32])
+    W_conv1 = weight_variable([5, 5, 9, 32])
     b_conv1 = bias_variable([32])
     h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 
