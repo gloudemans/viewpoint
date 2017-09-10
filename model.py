@@ -158,7 +158,8 @@ def main(_):
   with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(20000):
-      k = i % count
+      print(i)
+      k = (i*50) % count
       x_batch = tensor[k:k+50]
       y_batch = target[k:k+50]
       if i % 100 == 0:
