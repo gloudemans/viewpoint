@@ -128,7 +128,7 @@ def main(_):
   x = 512
   y = 512
   span = 100
-  count = 1000
+  count = 100
   
   # Import data
   tensor, target = get_training_data(filename, x, y, span, count)
