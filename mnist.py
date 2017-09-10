@@ -1,22 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @gloudemans
- Sign out
- Watch 6,120
-  Star 69,386
-  Fork 34,156 tensorflow/tensorflow
- Code  Issues 1,021  Pull requests 110  Projects 0 Insights 
-Branch: master Find file Copy pathtensorflow/tensorflow/examples/tutorials/layers/cnn_mnist.py
-204c367  on Jul 7
-@isaprykin isaprykin Fix KeyError when looking for 'softmax_tensor' in the layers tutorial.
-4 contributors @sandersk @isaprykin @tensorflower-gardener @dandelionmane
-RawBlameHistory     
-162 lines (136 sloc)  5.66 KB
 #  Copyright 2016 The TensorFlow Authors. All Rights Reserved.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -178,15 +159,3 @@ def main(unused_argv):
 
 if __name__ == "__main__":
   tf.app.run()
-© 2017 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
