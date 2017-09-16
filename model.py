@@ -151,7 +151,7 @@ def weight_variable2d(shape):
 
 def bias_variable(shape):
   """bias_variable generates a bias variable of a given shape."""
-  return tf.get_variable("bias",, dtype=tf.float32, initializer=tf.zeros_initializer)
+  return tf.get_variable("bias", dtype=tf.float32, initializer=tf.zeros_initializer)
 
 def main(_):
   
