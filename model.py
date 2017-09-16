@@ -71,7 +71,7 @@ def deepnn(x):
   with tf.name_scope('conv1'):
     W_conv1 = weight_variable("W_conv1", [5, 5, 9, 32])
     b_conv1 = bias_variable("b_conv1", [32])
-    h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
+    h_conv1 = tf.nn.elu(conv2d(x_image, W_conv1) + b_conv1)
 
   # Pooling layer - 512->256.
   with tf.name_scope('pool1'):
@@ -81,7 +81,7 @@ def deepnn(x):
   with tf.name_scope('conv2'):
     W_conv2 = weight_variable("W_conv2", [5, 5, 32, 32])
     b_conv2 = bias_variable("b_conv2", [32])
-    h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
+    h_conv2 = tf.nn.elu(conv2d(h_pool1, W_conv2) + b_conv2)
 
   # Second pooling 256->128.
   with tf.name_scope('pool2'):
@@ -91,7 +91,7 @@ def deepnn(x):
   with tf.name_scope('conv3'):
     W_conv3 = weight_variable("W_conv3", [5, 5, 32, 32])
     b_conv3 = bias_variable("b_conv3", [32])
-    h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
+    h_conv3 = tf.nn.elu(conv2d(h_pool2, W_conv3) + b_conv3)
 
   # Second pooling 128->64.
   with tf.name_scope('pool3'):
@@ -101,7 +101,7 @@ def deepnn(x):
   with tf.name_scope('conv4'):
     W_conv4 = weight_variable("W_conv4", [5, 5, 32, 32])
     b_conv4 = bias_variable("b_conv4", [32])
-    h_conv4 = tf.nn.relu(conv2d(h_pool3, W_conv4) + b_conv4)
+    h_conv4 = tf.nn.elu(conv2d(h_pool3, W_conv4) + b_conv4)
 
   # Second pooling 64->32
   with tf.name_scope('pool4'):
@@ -127,7 +127,7 @@ def deepnn(x):
     W_fc2 = weight_variable("W_fc2", [1024, 1])
     b_fc2 = bias_variable("b_fc2", [1])
 
-    y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
+    y_conv = tf.sigmoid(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
   return y_conv, keep_prob
 
 
@@ -195,9 +195,9 @@ def main(_):
             x: x_batch, y_: y_batch, keep_prob: 1.0})
         print('step %d, training accuracy %g' % (i, train_accuracy))
         
-      out = sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
+      # out = sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
       
-      print(out)
+      # print(out)
         
       train_step.run(feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
 
