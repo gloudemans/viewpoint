@@ -118,7 +118,7 @@ def deepnn(x):
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     units = 1)
 
-  return y_conv, keep_prob
+  return y_conv
 
 def main(_):
   
@@ -137,7 +137,7 @@ def main(_):
   y_ = tf.placeholder(tf.float32, [None, 1])
 
   # Build the graph for the deep net
-  y_conv, keep_prob = deepnn(x)
+  y_conv = deepnn(x)
   
   with tf.name_scope('loss'):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
@@ -163,15 +163,15 @@ def main(_):
       
       if i % 1 == 0:
         train_accuracy = mse.eval(feed_dict={
-            x: x_batch, y_: y_batch, keep_prob: 1.0})
+            x: x_batch, y_: y_batch})
         print('step %d, training accuracy %g' % (i, train_accuracy))
         
-      out = sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch, keep_prob: 1.0})
+      out = sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch})
       
       print(out[0:10])
       print(y_batch[0:10])
         
-      train_step.run(feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
+      train_step.run(feed_dict={x: x_batch, y_: y_batch})
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
         x: tensor, y_: target, keep_prob: 1.0}))
