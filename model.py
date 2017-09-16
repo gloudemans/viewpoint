@@ -127,10 +127,9 @@ def main(_):
   y = 512
   span = 100
   batch = 10000
-  minibatch = 200
+  minibatch = 100
   
-  # Get batch of training data
-  tensor, target = get_training_data(filename, x, y, span, batch)
+
   
   # Create IO placeholders
   x  = tf.placeholder(tf.float32, [None, x, y, 9])
@@ -157,9 +156,12 @@ def main(_):
       
       print(i)
       
-      k = (i*minibatch) % batch
-      x_batch = tensor[k:k+minibatch]
-      y_batch = target[k:k+minibatch]
+      # k = (i*minibatch) % batch
+      # x_batch = tensor[k:k+minibatch]
+      # y_batch = target[k:k+minibatch]
+      
+      # Get batch of training data
+      x_batch, y_batch = get_training_data(filename, x, y, span, minibatch)
       
       if i % 1 == 0:
         train_accuracy = mse.eval(feed_dict={
