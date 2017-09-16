@@ -143,6 +143,11 @@ def main(_):
   
   # Get batch of training data
   tensor, target = get_training_data(filename, x, y, span, count)
+
+  print(tensor.shape)
+  print(target.shape)
+  
+  return
   
   # Create IO placeholders
   x = tf.placeholder(tf.float32, [None, x, y, 9])
