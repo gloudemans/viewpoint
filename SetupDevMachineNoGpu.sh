@@ -1,10 +1,14 @@
+# Add the following tools to a Google Compute Engine 
+# Ubunto 16.04 instance with no GPU:
+#
+# - FFMPEG
+# - Tensorflow for Python 3
+# - virtualenv
+# - numpy and scipy
+
 # Run install from home directory so that tensorflow virtualenv will
 # be ~/tensorflow.
 cd ~
-
-# Bring ubuntu install up to date
-sudo apt-get update
-sudo apt-get upgrade
 
 # Install ffmpeg
 sudo apt-get install ffmpeg
