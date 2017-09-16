@@ -54,7 +54,7 @@ def get_training_data(filename, x, y, span, count):
             p1 = (frame+n0+n1) % fifolen
             p2 = (frame+n0+span) % fifolen
             tensor[ia[sample],:,:,:] = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
-            target[ia[sample]] = (p1-p0)/(p2-p0)
+            target[ia[sample]] = n1/(span)
             timer -= interval
             sample += 1
             print(sample)
@@ -172,7 +172,7 @@ def main(_):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
 
   with tf.name_scope('adam_optimizer'):
-    train_step = tf.train.AdamOptimizer(1e-2).minimize(mse)
+    train_step = tf.train.AdamOptimizer(1e-4).minimize(mse)
 
   graph_location = tempfile.mkdtemp()
   print('Saving graph to: %s' % graph_location)
