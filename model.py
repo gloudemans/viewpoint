@@ -69,8 +69,8 @@ def deepnn(x):
 
   # First convolutional layer - maps one grayscale image to 32 feature maps.
   with tf.name_scope('conv1'):
-    W_conv1 = weight_variable2d([5, 5, 9, 32])
-    b_conv1 = bias_variable([32])
+    W_conv1 = weight_variable("W_conv1", [5, 5, 9, 32])
+    b_conv1 = bias_variable("b_conv1", [32])
     h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 
   # Pooling layer - 512->256.
@@ -79,8 +79,8 @@ def deepnn(x):
 
   # Second convolutional layer -- maps 32 feature maps to 64.
   with tf.name_scope('conv2'):
-    W_conv2 = weight_variable2d([5, 5, 32, 32])
-    b_conv2 = bias_variable([32])
+    W_conv2 = weight_variable("W_conv2", [5, 5, 32, 32])
+    b_conv2 = bias_variable("b_conv2", [32])
     h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 
   # Second pooling 256->128.
@@ -89,8 +89,8 @@ def deepnn(x):
     
   # Second convolutional layer -- maps 32 feature maps to 64.
   with tf.name_scope('conv3'):
-    W_conv3 = weight_variable2d([5, 5, 32, 32])
-    b_conv3 = bias_variable([32])
+    W_conv3 = weight_variable("W_conv3", [5, 5, 32, 32])
+    b_conv3 = bias_variable("b_conv3", [32])
     h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
 
   # Second pooling 128->64.
@@ -99,8 +99,8 @@ def deepnn(x):
     
   # Second convolutional layer -- maps 32 feature maps to 64.
   with tf.name_scope('conv4'):
-    W_conv4 = weight_variable2d([5, 5, 32, 32])
-    b_conv4 = bias_variable([32])
+    W_conv4 = weight_variable("W_conv4", [5, 5, 32, 32])
+    b_conv4 = bias_variable("b_conv4", [32])
     h_conv4 = tf.nn.relu(conv2d(h_pool3, W_conv4) + b_conv4)
 
   # Second pooling 64->32
@@ -110,8 +110,8 @@ def deepnn(x):
   # Fully connected layer 1 -- after 2 round of downsampling, our 28x28 image
   # is down to 7x7x64 feature maps -- maps this to 1024 features.
   with tf.name_scope('fc1'):
-    W_fc1 = weight_variable([32 * 32 * 32, 1024])
-    b_fc1 = bias_variable([1024])
+    W_fc1 = weight_variable("W_fc1", [32 * 32 * 32, 1024])
+    b_fc1 = bias_variable("b_fc1", [1024])
 
     h_pool2_flat = tf.reshape(h_pool4, [-1, 32 * 32 * 32])
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
@@ -124,8 +124,8 @@ def deepnn(x):
 
   # Map the 1024 features to 1 scalar
   with tf.name_scope('fc2'):
-    W_fc2 = weight_variable([1024, 1])
-    b_fc2 = bias_variable([1])
+    W_fc2 = weight_variable("W_fc2"< [1024, 1])
+    b_fc2 = bias_variable("b_fc2", [1])
 
     y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
   return y_conv, keep_prob
@@ -141,17 +141,13 @@ def max_pool_2x2(x):
   return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
                         strides=[1, 2, 2, 1], padding='SAME')
 
-def weight_variable(shape):
+def weight_variable(name, shape):
   """weight_variable generates a weight variable of a given shape."""
-  return tf.get_variable("weight", shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.variance_scaling_initializer())
+  return tf.get_variable(name, shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.variance_scaling_initializer())
 
-def weight_variable2d(shape):
-  """weight_variable generates a weight variable of a given shape."""
-  return tf.get_variable("weight2d", shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.variance_scaling_initializer())
-
-def bias_variable(shape):
+def bias_variable(name, shape):
   """bias_variable generates a bias variable of a given shape."""
-  return tf.get_variable("bias", shape=shape, dtype=tf.float32, initializer=tf.zeros_initializer())
+  return tf.get_variable(name, shape=shape, dtype=tf.float32, initializer=tf.zeros_initializer())
 
 def main(_):
   
