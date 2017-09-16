@@ -123,8 +123,8 @@ def deepnn(x):
 def main(_):
   
   filename = 'data.rgb'
-  x = 512
-  y = 512
+  xpix = 512
+  ypix = 512
   span = 100
   batch = 10000
   minibatch = 100
@@ -132,7 +132,7 @@ def main(_):
 
   
   # Create IO placeholders
-  x  = tf.placeholder(tf.float32, [None, x, y, 9])
+  x  = tf.placeholder(tf.float32, [None, xpix, ypix, 9])
   y_ = tf.placeholder(tf.float32, [None, 1])
 
   # Build the graph for the deep net
@@ -161,7 +161,7 @@ def main(_):
       # y_batch = target[k:k+minibatch]
       
       # Get batch of training data
-      x_batch, y_batch = get_training_data(filename, x, y, span, minibatch)
+      x_batch, y_batch = get_training_data(filename, xpix, ypix, span, minibatch)
       
       if i % 1 == 0:
         train_accuracy = mse.eval(feed_dict={
