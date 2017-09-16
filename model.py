@@ -65,89 +65,60 @@ def get_training_data(filename, x, y, span, count):
 
 def deepnn(x):
 
-  x_image = x
+  conv1 = tf.layers.conv2d(
+    inputs = x,
+    stride = 2,
+    filters = 32,
+    kernel_size = [5, 5],
+    kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
+    bias_initializer = initializer = tf.zeros_initializer(),
+    padding = "same",
+    activation = tf.nn.elu)
+  
+  conv2 = tf.layers.conv2d(
+    inputs = conv1,
+    stride = 2,
+    filters = 32,
+    kernel_size = [5, 5],
+    kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
+    bias_initializer = initializer = tf.zeros_initializer(),
+    padding = "same",
+    activation = tf.nn.elu)
+  
+  conv3 = tf.layers.conv2d(
+    inputs = conv2,
+    stride = 2,
+    filters = 32,
+    kernel_size = [5, 5],
+    kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
+    bias_initializer = initializer = tf.zeros_initializer(),
+    padding = "same",
+    activation = tf.nn.elu)
+  
+  conv4 = tf.layers.conv2d(
+    inputs = conv3,
+    stride = 2,
+    filters = 32,
+    kernel_size = [5, 5],
+    kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
+    bias_initializer = initializer = tf.zeros_initializer(),
+    padding = "same",
+    activation = tf.nn.elu)
+  
+  flat = tf.reshape(conv4, [-1, 32**3])
 
-  # First convolutional layer - maps one grayscale image to 32 feature maps.
-  with tf.name_scope('conv1'):
-    W_conv1 = weight_variable("W_conv1", [5, 5, 9, 32])
-    b_conv1 = bias_variable("b_conv1", [32])
-    h_conv1 = tf.nn.elu(conv2d(x_image, W_conv1) + b_conv1)
+  dense = tf.layers.dense(
+    inputs = flat, 
+    units = 1024,
+    kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
+    activation = tf.nn.elu)
 
-  # Pooling layer - 512->256.
-  with tf.name_scope('pool1'):
-    h_pool1 = max_pool_2x2(h_conv1)
+  y_conv = tf.layers.dense(
+    inputs = dense,
+    kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
+    units = 1)
 
-  # Second convolutional layer -- maps 32 feature maps to 64.
-  with tf.name_scope('conv2'):
-    W_conv2 = weight_variable("W_conv2", [5, 5, 32, 32])
-    b_conv2 = bias_variable("b_conv2", [32])
-    h_conv2 = tf.nn.elu(conv2d(h_pool1, W_conv2) + b_conv2)
-
-  # Second pooling 256->128.
-  with tf.name_scope('pool2'):
-    h_pool2 = max_pool_2x2(h_conv2)
-    
-  # Second convolutional layer -- maps 32 feature maps to 64.
-  with tf.name_scope('conv3'):
-    W_conv3 = weight_variable("W_conv3", [5, 5, 32, 32])
-    b_conv3 = bias_variable("b_conv3", [32])
-    h_conv3 = tf.nn.elu(conv2d(h_pool2, W_conv3) + b_conv3)
-
-  # Second pooling 128->64.
-  with tf.name_scope('pool3'):
-    h_pool3 = max_pool_2x2(h_conv3)
-    
-  # Second convolutional layer -- maps 32 feature maps to 64.
-  with tf.name_scope('conv4'):
-    W_conv4 = weight_variable("W_conv4", [5, 5, 32, 32])
-    b_conv4 = bias_variable("b_conv4", [32])
-    h_conv4 = tf.nn.elu(conv2d(h_pool3, W_conv4) + b_conv4)
-
-  # Second pooling 64->32
-  with tf.name_scope('pool4'):
-    h_pool4 = max_pool_2x2(h_conv4)
-    
-  # Fully connected layer 1 -- after 2 round of downsampling, our 28x28 image
-  # is down to 7x7x64 feature maps -- maps this to 1024 features.
-  with tf.name_scope('fc1'):
-    W_fc1 = weight_variable("W_fc1", [32 * 32 * 32, 1024])
-    b_fc1 = bias_variable("b_fc1", [1024])
-
-    h_pool2_flat = tf.reshape(h_pool4, [-1, 32 * 32 * 32])
-    h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
-
-  # Dropout - controls the complexity of the model, prevents co-adaptation of
-  # features.
-  with tf.name_scope('dropout'):
-    keep_prob = tf.placeholder(tf.float32)
-    h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
-
-  # Map the 1024 features to 1 scalar
-  with tf.name_scope('fc2'):
-    W_fc2 = weight_variable("W_fc2", [1024, 1])
-    b_fc2 = bias_variable("b_fc2", [1])
-
-    y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
   return y_conv, keep_prob
-
-
-def conv2d(x, W):
-  """conv2d returns a 2d convolution layer with full stride."""
-  return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
-
-
-def max_pool_2x2(x):
-  """max_pool_2x2 downsamples a feature map by 2X."""
-  return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
-                        strides=[1, 2, 2, 1], padding='SAME')
-
-def weight_variable(name, shape):
-  """weight_variable generates a weight variable of a given shape."""
-  return tf.get_variable(name, shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.variance_scaling_initializer())
-
-def bias_variable(name, shape):
-  """bias_variable generates a bias variable of a given shape."""
-  return tf.get_variable(name, shape=shape, dtype=tf.float32, initializer=tf.zeros_initializer())
 
 def main(_):
   
