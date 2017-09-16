@@ -124,7 +124,7 @@ def deepnn(x):
 
   # Map the 1024 features to 1 scalar
   with tf.name_scope('fc2'):
-    W_fc2 = weight_variable("W_fc2"< [1024, 1])
+    W_fc2 = weight_variable("W_fc2", [1024, 1])
     b_fc2 = bias_variable("b_fc2", [1])
 
     y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
