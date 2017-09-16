@@ -126,8 +126,8 @@ def main(_):
   x = 512
   y = 512
   span = 100
-  batch = 1000
-  minibatch = 50
+  batch = 10000
+  minibatch = 200
   
   # Get batch of training data
   tensor, target = get_training_data(filename, x, y, span, batch)
