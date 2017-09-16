@@ -67,7 +67,7 @@ def deepnn(x):
 
   conv1 = tf.layers.conv2d(
     inputs = x,
-    stride = 2,
+    strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
@@ -77,7 +77,7 @@ def deepnn(x):
   
   conv2 = tf.layers.conv2d(
     inputs = conv1,
-    stride = 2,
+    strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
@@ -87,7 +87,7 @@ def deepnn(x):
   
   conv3 = tf.layers.conv2d(
     inputs = conv2,
-    stride = 2,
+    strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
@@ -97,7 +97,7 @@ def deepnn(x):
   
   conv4 = tf.layers.conv2d(
     inputs = conv3,
-    stride = 2,
+    strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
