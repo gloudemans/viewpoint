@@ -159,7 +159,7 @@ def main(_):
   x = 512
   y = 512
   span = 100
-  batch = 10000
+  batch = 1000
   minibatch = 50
   
   # Get batch of training data
