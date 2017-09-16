@@ -12,7 +12,7 @@ We mounted a [panoramic video camera](https://www.amazon.com/Andoer-Fisheye-Pano
 ## Resize and video and save as raw
 We can use ffmpeg to decode and resize the video to 512x512 rgb frames and to save them in uncompressed raw format as follows.
 
-ffmpeg -i infile.mp4  -vf scale=X:Y -pix_fmt rgb24 -vcodec rawvideo outfile.rgb
+ffmpeg -i infile.mp4 -filter:v "crop=in_h/2:in_h/2" -vf scale=X:Y -pix_fmt rgb24 -vcodec rawvideo outfile.rgb
 
 The resulting outfile will be raw binary data describing sequential frames. Each frame can be converted to a numpy array as follows:
 
