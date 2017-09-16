@@ -195,7 +195,7 @@ def main(_):
             x: x_batch, y_: y_batch, keep_prob: 1.0})
         print('step %d, training accuracy %g' % (i, train_accuracy))
         
-      sess.run(y_conv)
+      sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
       
       print(y_conv)
         
