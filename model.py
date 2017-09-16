@@ -23,7 +23,8 @@ FLAGS = None
 
 def get_training_data(filename, x, y, span, count):
 
-  fifo = np.zeros( (span+1,y,x,3), dtype=np.uint8)
+  fifolen = 2*span+1
+  fifo = np.zeros( (fifolen,y,x,3), dtype=np.uint8)
   tensor = np.zeros( (count,y,x,9), dtype=np.uint8)
   target = np.zeros( (count,1), dtype=np.float32)
 
@@ -47,12 +48,13 @@ def get_training_data(filename, x, y, span, count):
         fifo[frame % (span+1), :,:,:] = np.reshape(image, (y,x,3))
         if frame > span:
           while timer >= 0:
-            n =  np.random.randint(0, span+1);
-            p0 = (frame+0) % (span+1)
-            p1 = (frame+n) % (span+1)
-            p2 = (frame+span) % (span+1)
+            n0 =  np.random.randint(0, span);
+            n1 =  np.random.randint(0, span+1);
+            p0 = (frame+n0) % fifolen
+            p1 = (frame+n0+n1) % fifolen
+            p2 = (frame+span) % fifolen
             tensor[ia[sample],:,:,:] = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
-            target[ia[sample]] = n/(span+1)
+            target[ia[sample]] = (p1-p0)/(p2-p0)
             timer -= interval
             sample += 1
             print(sample)
