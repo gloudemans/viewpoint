@@ -172,16 +172,15 @@ def main(_):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
 
   with tf.name_scope('adam_optimizer'):
-    train_step = tf.train.AdamOptimizer(1e-4).minimize(mse)
+    train_step = tf.train.AdamOptimizer(1e-2).minimize(mse)
 
   graph_location = tempfile.mkdtemp()
   print('Saving graph to: %s' % graph_location)
   train_writer = tf.summary.FileWriter(graph_location)
   train_writer.add_graph(tf.get_default_graph())
 
-  print('A')
   with tf.Session() as sess:
-    print('B')
+
     sess.run(tf.global_variables_initializer())
     for i in range(batch//minibatch):
       
@@ -191,9 +190,6 @@ def main(_):
       x_batch = tensor[k:k+minibatch]
       y_batch = target[k:k+minibatch]
       
-      print(x_batch.shape)
-      print(y_batch.shape)
-      
       if i % 1 == 0:
         train_accuracy = mse.eval(feed_dict={
             x: x_batch, y_: y_batch, keep_prob: 1.0})
@@ -202,7 +198,6 @@ def main(_):
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
         x: tensor, y_: target, keep_prob: 1.0}))
-  print('C')
 
 if __name__ == '__main__':
   tf.app.run(main=main)
