@@ -71,7 +71,7 @@ def deepnn(x):
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
-    bias_initializer = initializer = tf.zeros_initializer(),
+    bias_initializer = tf.zeros_initializer(),
     padding = "same",
     activation = tf.nn.elu)
   
@@ -81,7 +81,7 @@ def deepnn(x):
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
-    bias_initializer = initializer = tf.zeros_initializer(),
+    bias_initializer = tf.zeros_initializer(),
     padding = "same",
     activation = tf.nn.elu)
   
@@ -91,7 +91,7 @@ def deepnn(x):
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
-    bias_initializer = initializer = tf.zeros_initializer(),
+    bias_initializer = tf.zeros_initializer(),
     padding = "same",
     activation = tf.nn.elu)
   
@@ -101,7 +101,7 @@ def deepnn(x):
     filters = 32,
     kernel_size = [5, 5],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
-    bias_initializer = initializer = tf.zeros_initializer(),
+    bias_initializer = tf.zeros_initializer(),
     padding = "same",
     activation = tf.nn.elu)
   
