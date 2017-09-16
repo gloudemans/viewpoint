@@ -1,7 +1,6 @@
-# The training data file contains raw video frames
-# 30 minutes of 512x512 RGB frames at 30 frames per second is about 42GB.
-# For training we can traverse this file and construct a numpy array of
-# of 1000 512x512x9 frames and then shuffle it.
+# The training data file contains raw XxY RGB video frames. If X and Y are 
+# nominally 512 pixels. Each frame is about 750KB, and there are 30 frames per
+# second 24MB per second, 1.5GB per minute, etc. 
 
 import os
 import numpy as np
@@ -11,6 +10,16 @@ import sys
 import tempfile
 
 FLAGS = None
+
+# Construct one bath of training data.
+# Open the specified raw video file. Read frames with the specified
+# x and y resolution into a FIFO holding 2*span frames. Select a random
+# start position p0 up to span frames into the FIFO. Select a query frame 
+# up to span frames from start frame. Select an end frame p2 = p0 + span.
+# Compute the relative position of the query frame between the start and 
+# end frames as r = (p1-p0)/(p2-p0). Collect frames p0, p1, and p2 as a
+# training input sample, and r as a training output sample. Return count 
+# sample pairs with shape (count, y, x, 9) and another having dimension (count,1).
 
 def get_training_data(filename, x, y, span, count):
 
@@ -130,15 +139,11 @@ def main(_):
   span = 100
   count = 100
   
-  # Import data
+  # Get batch of training data
   tensor, target = get_training_data(filename, x, y, span, count)
-  #tensor = tf.constant(tensor, tf.float32)
-  #target = tf.constant(target, tf.float32)
   
-  # Create the model
-  x = tf.placeholder(tf.float32, [None, 512, 512, 9])
-
-  # Define loss and optimizer
+  # Create IO placeholders
+  x = tf.placeholder(tf.float32, [None, x, y, 9])
   y_ = tf.placeholder(tf.float32, [None, 1])
 
   # Build the graph for the deep net
