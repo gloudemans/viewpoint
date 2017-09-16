@@ -143,15 +143,15 @@ def max_pool_2x2(x):
 
 def weight_variable(shape):
   """weight_variable generates a weight variable of a given shape."""
-  return tf.get_variable(shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.xavier_initializer)
+  return tf.get_variable("weight", shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.xavier_initializer)
 
 def weight_variable2d(shape):
   """weight_variable generates a weight variable of a given shape."""
-  return tf.get_variable(shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.xavier_initializer_conv2d)
+  return tf.get_variable("weight2d", shape=shape, dtype=tf.float32, initializer=tf.contrib.layers.xavier_initializer_conv2d)
 
 def bias_variable(shape):
   """bias_variable generates a bias variable of a given shape."""
-  return tf.get_variable(shape=shape, dtype=tf.float32, initializer=tf.zeros_initializer)
+  return tf.get_variable("bias",, dtype=tf.float32, initializer=tf.zeros_initializer)
 
 def main(_):
   
