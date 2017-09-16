@@ -52,7 +52,7 @@ def get_training_data(filename, x, y, span, count):
             n1 =  np.random.randint(0, span+1);
             p0 = (frame+n0) % fifolen
             p1 = (frame+n0+n1) % fifolen
-            p2 = (frame+span) % fifolen
+            p2 = (frame+n0+span) % fifolen
             tensor[ia[sample],:,:,:] = np.dstack( (fifo[p0,:,:,:], fifo[p1,:,:,:], fifo[p2,:,:,:]) )
             target[ia[sample]] = (p1-p0)/(p2-p0)
             timer -= interval
@@ -127,7 +127,7 @@ def deepnn(x):
     W_fc2 = weight_variable("W_fc2", [1024, 1])
     b_fc2 = bias_variable("b_fc2", [1])
 
-    y_conv = tf.sigmoid(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+    y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
   return y_conv, keep_prob
 
 
@@ -195,7 +195,7 @@ def main(_):
             x: x_batch, y_: y_batch, keep_prob: 1.0})
         print('step %d, training accuracy %g' % (i, train_accuracy))
         
-      out = sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
+      out = sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch, keep_prob: 1.0})
       
       print(out[0:10])
       print(y_batch[0:10])
