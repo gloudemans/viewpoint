@@ -187,7 +187,7 @@ def main(_):
   with tf.Session() as sess:
     print('B')
     sess.run(tf.global_variables_initializer())
-    for i in range(floor(batch/minibatch)):
+    for i in range(np.floor(batch/minibatch)):
       
       print(i)
       
