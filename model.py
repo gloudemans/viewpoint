@@ -73,27 +73,47 @@ def deepnn(x):
     b_conv1 = bias_variable([32])
     h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 
-  # Pooling layer - downsamples by 2X.
+  # Pooling layer - 512->256.
   with tf.name_scope('pool1'):
     h_pool1 = max_pool_2x2(h_conv1)
 
   # Second convolutional layer -- maps 32 feature maps to 64.
   with tf.name_scope('conv2'):
-    W_conv2 = weight_variable([5, 5, 32, 64])
-    b_conv2 = bias_variable([64])
+    W_conv2 = weight_variable([5, 5, 32, 32])
+    b_conv2 = bias_variable([32])
     h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 
-  # Second pooling layer.
+  # Second pooling 256->128.
   with tf.name_scope('pool2'):
     h_pool2 = max_pool_2x2(h_conv2)
+    
+  # Second convolutional layer -- maps 32 feature maps to 64.
+  with tf.name_scope('conv3'):
+    W_conv3 = weight_variable([5, 5, 32, 32])
+    b_conv3 = bias_variable([32])
+    h_conv3 = tf.nn.relu(conv2d(h_pool2, W_conv3) + b_conv3)
 
+  # Second pooling 128->64.
+  with tf.name_scope('pool3'):
+    h_pool3 = max_pool_2x2(h_conv3)
+    
+  # Second convolutional layer -- maps 32 feature maps to 64.
+  with tf.name_scope('conv4'):
+    W_conv4 = weight_variable([5, 5, 32, 32])
+    b_conv4 = bias_variable([32])
+    h_conv4 = tf.nn.relu(conv2d(h_pool3, W_conv4) + b_conv4)
+
+  # Second pooling 64->32
+  with tf.name_scope('pool4'):
+    h_pool4 = max_pool_2x2(h_conv4)
+    
   # Fully connected layer 1 -- after 2 round of downsampling, our 28x28 image
   # is down to 7x7x64 feature maps -- maps this to 1024 features.
   with tf.name_scope('fc1'):
-    W_fc1 = weight_variable([128 * 128 * 64, 1024])
+    W_fc1 = weight_variable([32 * 32 * 32, 1024])
     b_fc1 = bias_variable([1024])
 
-    h_pool2_flat = tf.reshape(h_pool2, [-1, 128*128*64])
+    h_pool2_flat = tf.reshape(h_pool4, [-1, 128*128*64])
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
   # Dropout - controls the complexity of the model, prevents co-adaptation of
@@ -139,18 +159,14 @@ def main(_):
   x = 512
   y = 512
   span = 100
-  count = 100
+  batch = 10000
+  minibatch = 50
   
   # Get batch of training data
-  tensor, target = get_training_data(filename, x, y, span, count)
-
-  print(tensor.shape)
-  print(target.shape)
-  
-  return
+  tensor, target = get_training_data(filename, x, y, span, batch)
   
   # Create IO placeholders
-  x = tf.placeholder(tf.float32, [None, x, y, 9])
+  x  = tf.placeholder(tf.float32, [None, x, y, 9])
   y_ = tf.placeholder(tf.float32, [None, 1])
 
   # Build the graph for the deep net
@@ -171,16 +187,18 @@ def main(_):
   with tf.Session() as sess:
     print('B')
     sess.run(tf.global_variables_initializer())
-    for i in range(10):
+    for i in range(floor(batch/minibatch)):
+      
       print(i)
-      k = (i*50) % count
-      x_batch = tensor[k:k+50]
-      y_batch = target[k:k+50]
+      
+      k = (i*minibatch) % batch
+      x_batch = tensor[k:k+minibatch]
+      y_batch = target[k:k+minibatch]
       
       print(x_batch.shape)
       print(y_batch.shape)
       
-      if i % 100 == 0:
+      if i % 1 == 0:
         train_accuracy = mse.eval(feed_dict={
             x: x_batch, y_: y_batch, keep_prob: 1.0})
         print('step %d, training accuracy %g' % (i, train_accuracy))
