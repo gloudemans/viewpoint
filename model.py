@@ -194,6 +194,11 @@ def main(_):
         train_accuracy = mse.eval(feed_dict={
             x: x_batch, y_: y_batch, keep_prob: 1.0})
         print('step %d, training accuracy %g' % (i, train_accuracy))
+        
+      sess.run(y_conv)
+      
+      print(y_conv)
+        
       train_step.run(feed_dict={x: x_batch, y_: y_batch, keep_prob: 0.5})
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
