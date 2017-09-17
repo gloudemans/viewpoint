@@ -197,8 +197,8 @@ def main(_):
       print(i)
       
       k = (i*minibatch) % batch
-      x_minibatch = tensor[k:k+minibatch]
-      y_minibatch = target[k:k+minibatch]
+      x_minibatch = x_batch[k:k+minibatch]
+      y_minibatch = y_batch[k:k+minibatch]
       
       if i % 10 == 0:
         train_accuracy = mse.eval(feed_dict={
