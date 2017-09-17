@@ -81,8 +81,12 @@ def deepnn(x):
     padding = "same",
     activation = tf.nn.elu)
   
-  conv2 = tf.layers.conv2d(
+  batch2 = tf.layers.batch_normalization(
     inputs = conv1,
+    training = training)  
+  
+  conv2 = tf.layers.conv2d(
+    inputs = batch2,
     strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
@@ -90,9 +94,13 @@ def deepnn(x):
     bias_initializer = tf.zeros_initializer(),
     padding = "same",
     activation = tf.nn.elu)
+  
+  batch3 = tf.layers.batch_normalization(
+    inputs = conv2,
+    training = training)
   
   conv3 = tf.layers.conv2d(
-    inputs = conv2,
+    inputs = batch3,
     strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
@@ -101,8 +109,12 @@ def deepnn(x):
     padding = "same",
     activation = tf.nn.elu)
   
-  conv4 = tf.layers.conv2d(
+  batch4 = tf.layers.batch_normalization(
     inputs = conv3,
+    training = training)
+  
+  conv4 = tf.layers.conv2d(
+    inputs = batch4,
     strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
@@ -112,15 +124,23 @@ def deepnn(x):
     activation = tf.nn.elu)
   
   flat = tf.reshape(conv4, [-1, 32**3])
+  
+  batch5 = tf.layers.batch_normalization(
+    inputs = flat,
+    training = training)
 
   dense = tf.layers.dense(
-    inputs = flat, 
+    inputs = batch5, 
     units = 1024,
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     activation = tf.nn.elu)
 
-  y_conv = tf.layers.dense(
+  batch6 = tf.layers.batch_normalization(
     inputs = dense,
+    training = training)
+  
+  y_conv = tf.layers.dense(
+    inputs = batch6,
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     units = 1)
 
