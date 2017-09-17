@@ -34,10 +34,9 @@ The preprocessor iterates through the video decoding each frame at the output re
 Preprocessor.py should run acceptably on a single core Ubuntu 16.04 Google Compute Engine with no special memory requirements. It requires python and ffmpeg.
 
 ...
-
-and maintains a FIFO holding "span" frames. At intervals specified by the "frequency" argument, the preprocessor assembles a training sample by concatenating the frames at the head of the FIFO, the frame at the tail of the FIFO, a frame drawn randomly from the FIFO, and the relative position of that calculated frame within the FIFO (if the frame is n frames from the end, its relative position is n/span). It saves the concatenated uncompressed resampled RGB frames and the relative position of the center frame as one training sample. The process continues until the entire video is processed and produces a single file with multiple training samples.
-
-
-
-# Install numpy and scipy
-sudo pip3 install numpy scipy
+# Formatting and mounting a persistent disk
+sudo lsblk
+sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/[DEVICE_ID]
+sudo mount -o discard,defaults /dev/[DEVICE_ID] /mnt/disks/[MNT_DIR]
+sudo mkdir -p /mnt/disks/[MNT_DIR]
+sudo chmod a+w /mnt/disks/[MNT_DIR]
