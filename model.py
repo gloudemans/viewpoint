@@ -192,9 +192,9 @@ def main(_):
   with tf.Session() as sess:
 
     sess.run(tf.global_variables_initializer())    
-    epoch = 0;
+    epoch = 0
     while True:    
-      print('Epoch: ' + str(eopch))
+      print('Epoch: ' + str(epoch))
       for i in range(batch//minibatch):
         print('Minibatch: ', i)
         k = (i*minibatch) % batch
