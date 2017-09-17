@@ -204,8 +204,8 @@ def main(_):
           train_accuracy = mse.eval(feed_dict={
               x: x_minibatch, y_: y_minibatch})
           print('step %d, training accuracy %g' % (i, train_accuracy))
-        train_step.run(feed_dict={x: x_minibatch, y_: y_minibatch}     
-      epoch = epoch + 1
+        train_step.run(feed_dict={x: x_minibatch, y_: y_minibatch})    
+      epoch += 1
 
 if __name__ == '__main__':
   tf.app.run(main=main)
