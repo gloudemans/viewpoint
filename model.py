@@ -153,7 +153,7 @@ def main(_):
   xpix = 512
   ypix = 512
   span = 100
-  batch = 15000
+  batch = 5000
   minibatch = 100
   
   try:
