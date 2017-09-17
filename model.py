@@ -148,14 +148,15 @@ def deepnn(x):
 
 def main(_):
   
-  filename = 'data.rgb'
+  filename = 'ssd/data.rgb'
   xpix = 512
   ypix = 512
   span = 100
   batch = 10000
   minibatch = 100
   
-
+  # Get batch of training data
+  x_batch, y_batch = get_training_data(filename, xpix, ypix, span, batch)
   
   # Create IO placeholders
   x  = tf.placeholder(tf.float32, [None, xpix, ypix, 9])
@@ -172,8 +173,6 @@ def main(_):
     #train_op = train_step.minimize(mse)
     # with tf.name_scope('adam_optimizer'):
     train_step = tf.train.AdamOptimizer(1e-2).minimize(mse)
-    
-
 
   graph_location = tempfile.mkdtemp()
   print('Saving graph to: %s' % graph_location)
@@ -187,24 +186,16 @@ def main(_):
       
       print(i)
       
-      # k = (i*minibatch) % batch
-      # x_batch = tensor[k:k+minibatch]
-      # y_batch = target[k:k+minibatch]
+      k = (i*minibatch) % batch
+      x_minibatch = tensor[k:k+minibatch]
+      y_minibatch = target[k:k+minibatch]
       
-      # Get batch of training data
-      x_batch, y_batch = get_training_data(filename, xpix, ypix, span, minibatch)
-      
-      if i % 1 == 0:
+      if i % 10 == 0:
         train_accuracy = mse.eval(feed_dict={
-            x: x_batch, y_: y_batch})
+            x: x_minibatch, y_: y_minibatch})
         print('step %d, training accuracy %g' % (i, train_accuracy))
-        
-      out = sess.run(y_conv, feed_dict={x: x_batch, y_: y_batch})
-      
-      print(out[0:10])
-      print(y_batch[0:10])
-        
-      train_step.run(feed_dict={x: x_batch, y_: y_batch})
+                
+      train_step.run(feed_dict={x: x_minibatch, y_: y_minibatch})
 
     print('test accuracy %g' % accuracy.eval(feed_dict={
         x: tensor, y_: target, keep_prob: 1.0}))
