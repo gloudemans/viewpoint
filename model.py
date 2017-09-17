@@ -148,7 +148,7 @@ def deepnn(x):
 
 def main(_):
   
-  filename = 'ssd/data.rgb'
+  filename = 'ssd/allvideo.rgb'
   xpix = 512
   ypix = 512
   span = 100
