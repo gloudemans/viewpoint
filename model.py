@@ -161,6 +161,7 @@ def main(_):
     x_batch = np.load(f);
     y_batch = np.load(f);
     f.close()
+    print('Batch loaded')
   except:   
     # Get batch of training data
     x_batch, y_batch = get_training_data(rgb_file, xpix, ypix, span, batch)
@@ -168,6 +169,7 @@ def main(_):
     np.save(f, x_batch);
     np.save(f, y_batch);
     f.close()
+    print('Batch saved')
   
   # Create IO placeholders
   x  = tf.placeholder(tf.float32, [None, xpix, ypix, 9])
@@ -176,6 +178,8 @@ def main(_):
   # Build the graph for the deep net
   y_conv = deepnn(x)
   
+  print('Graph complete')
+
   with tf.name_scope('loss'):
     mse = tf.losses.mean_squared_error(labels=y_, predictions=y_conv)
 
@@ -185,10 +189,10 @@ def main(_):
     # with tf.name_scope('adam_optimizer'):
     train_step = tf.train.AdamOptimizer(1e-2).minimize(mse)
 
-  graph_location = tempfile.mkdtemp()
-  print('Saving graph to: %s' % graph_location)
-  train_writer = tf.summary.FileWriter(graph_location)
-  train_writer.add_graph(tf.get_default_graph())
+  #graph_location = tempfile.mkdtemp()
+  #print('Saving graph to: %s' % graph_location)
+  #train_writer = tf.summary.FileWriter(graph_location)
+  #train_writer.add_graph(tf.get_default_graph())
 
   with tf.Session() as sess:
 
