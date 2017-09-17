@@ -152,11 +152,21 @@ def main(_):
   xpix = 512
   ypix = 512
   span = 100
-  batch = 10000
+  batch = 1000
   minibatch = 100
   
-  # Get batch of training data
-  x_batch, y_batch = get_training_data(filename, xpix, ypix, span, batch)
+  try
+    f = open('data.npy','rb')
+    x_batch = np.load(f);
+    y_batch = np.load(f);
+    f.close()
+  catch   
+    # Get batch of training data
+    x_batch, y_batch = get_training_data(filename, xpix, ypix, span, batch)
+    f = open('data.npy','wb')
+    np.save(f,x_batch);
+    np.save(f,y_batch);
+    f.close()
   
   # Create IO placeholders
   x  = tf.placeholder(tf.float32, [None, xpix, ypix, 9])
