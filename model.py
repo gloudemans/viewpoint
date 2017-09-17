@@ -159,10 +159,10 @@ def deepnn(x):
 def main(_):
   
   rgb_file = '/home/mark/ssd/allvideo.rgb'
-  npy_file = '/home/mark/ssd/allvideo50.npy'  
+  npy_file = '/home/mark/ssd/allvideo100.npy'  
   xpix = 512
   ypix = 512
-  span = 50
+  span = 100
   batch = 5000
   minibatch = 100
   
