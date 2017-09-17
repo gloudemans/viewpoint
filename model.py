@@ -67,10 +67,6 @@ def deepnn(x):
 
   training = True
   
-  update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
-  with tf.control_dependencies(update_ops):
-    train_op = optimizer.minimize(loss)
-
   batch1 = tf.layers.batch_normalization(
     inputs = x,
     training = training)
@@ -153,6 +149,10 @@ def main(_):
 
   with tf.name_scope('adam_optimizer'):
     train_step = tf.train.AdamOptimizer(1e-4).minimize(mse)
+    
+  update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+  with tf.control_dependencies(update_ops):
+    train_op = train_step.minimize(mse)
 
   graph_location = tempfile.mkdtemp()
   print('Saving graph to: %s' % graph_location)
