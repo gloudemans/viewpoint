@@ -171,7 +171,7 @@ def main(_):
   with tf.control_dependencies(update_ops):
     #train_op = train_step.minimize(mse)
     # with tf.name_scope('adam_optimizer'):
-    train_step = tf.train.AdamOptimizer(1e-4).minimize(mse)
+    train_step = tf.train.AdamOptimizer(1e-2).minimize(mse)
     
 
 
