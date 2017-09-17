@@ -148,7 +148,8 @@ def deepnn(x):
 
 def main(_):
   
-  filename = '/home/mark/ssd/allvideo.rgb'
+  rgb_file = '/home/mark/ssd/allvideo.rgb'
+  npy_file = '/home/mark/ssd/allvideo.npy'  
   xpix = 512
   ypix = 512
   span = 100
@@ -156,14 +157,14 @@ def main(_):
   minibatch = 100
   
   try:
-    f = open('data.npy','rb')
+    f = open(npy_file,'rb')
     x_batch = np.load(f);
     y_batch = np.load(f);
     f.close()
   except:   
     # Get batch of training data
-    x_batch, y_batch = get_training_data(filename, xpix, ypix, span, batch)
-    f = open('data.npy','wb')
+    x_batch, y_batch = get_training_data(rgb_file, xpix, ypix, span, batch)
+    f = open(npy_file,'wb')
     np.save(f, x_batch);
     np.save(f, y_batch);
     f.close()
