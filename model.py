@@ -155,12 +155,12 @@ def main(_):
   batch = 1000
   minibatch = 100
   
-  try
+  try:
     f = open('data.npy','rb')
     x_batch = np.load(f);
     y_batch = np.load(f);
     f.close()
-  catch   
+  except:   
     # Get batch of training data
     x_batch, y_batch = get_training_data(filename, xpix, ypix, span, batch)
     f = open('data.npy','wb')
