@@ -74,7 +74,7 @@ def deepnn(x):
   conv1 = tf.layers.conv2d(
     inputs = batch1,
     strides = (2,2),
-    filters = 64,
+    filters = 32,
     kernel_size = [11, 11],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     bias_initializer = tf.zeros_initializer(),
@@ -88,7 +88,7 @@ def deepnn(x):
   conv2 = tf.layers.conv2d(
     inputs = batch2,
     strides = (2,2),
-    filters = 64,
+    filters = 32,
     kernel_size = [11, 11],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     bias_initializer = tf.zeros_initializer(),
@@ -102,7 +102,7 @@ def deepnn(x):
   conv3 = tf.layers.conv2d(
     inputs = batch3,
     strides = (2,2),
-    filters = 64,
+    filters = 32,
     kernel_size = [11, 11],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     bias_initializer = tf.zeros_initializer(),
@@ -116,14 +116,14 @@ def deepnn(x):
   conv4 = tf.layers.conv2d(
     inputs = batch4,
     strides = (2,2),
-    filters = 64,
+    filters = 32,
     kernel_size = [11, 11],
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     bias_initializer = tf.zeros_initializer(),
     padding = "same",
     activation = tf.nn.elu)
   
-  flat = tf.reshape(conv4, [-1, 32*32*64])
+  flat = tf.reshape(conv4, [-1, 32*32*32])
   
   batch5 = tf.layers.batch_normalization(
     inputs = flat,
