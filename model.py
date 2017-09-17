@@ -164,8 +164,8 @@ def main(_):
     # Get batch of training data
     x_batch, y_batch = get_training_data(filename, xpix, ypix, span, batch)
     f = open('data.npy','wb')
-    np.save(f,x_batch);
-    np.save(f,y_batch);
+    np.save(f, x_batch);
+    np.save(f, y_batch);
     f.close()
   
   # Create IO placeholders
@@ -191,24 +191,21 @@ def main(_):
 
   with tf.Session() as sess:
 
-    sess.run(tf.global_variables_initializer())
-    for i in range(batch//minibatch):
-      
-      print(i)
-      
-      k = (i*minibatch) % batch
-      x_minibatch = x_batch[k:k+minibatch]
-      y_minibatch = y_batch[k:k+minibatch]
-      
-      if i % 10 == 0:
-        train_accuracy = mse.eval(feed_dict={
-            x: x_minibatch, y_: y_minibatch})
-        print('step %d, training accuracy %g' % (i, train_accuracy))
-                
-      train_step.run(feed_dict={x: x_minibatch, y_: y_minibatch})
-
-    print('test accuracy %g' % accuracy.eval(feed_dict={
-        x: tensor, y_: target, keep_prob: 1.0}))
+    sess.run(tf.global_variables_initializer())    
+    epoch = 0;
+    while True:    
+      print('Epoch: ' + str(eopch))
+      for i in range(batch//minibatch):
+        print('Minibatch: ', i)
+        k = (i*minibatch) % batch
+        x_minibatch = x_batch[k:k+minibatch]
+        y_minibatch = y_batch[k:k+minibatch]
+        if i % 10 == 0:
+          train_accuracy = mse.eval(feed_dict={
+              x: x_minibatch, y_: y_minibatch})
+          print('step %d, training accuracy %g' % (i, train_accuracy))
+        train_step.run(feed_dict={x: x_minibatch, y_: y_minibatch}     
+      epoch += 1
 
 if __name__ == '__main__':
   tf.app.run(main=main)
