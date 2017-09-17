@@ -65,8 +65,18 @@ def get_training_data(filename, x, y, span, count):
 
 def deepnn(x):
 
-  conv1 = tf.layers.conv2d(
+  training = True
+  
+  update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+  with tf.control_dependencies(update_ops):
+    train_op = optimizer.minimize(loss)
+
+  batch1 = tf.layers.batch_normalization(
     inputs = x,
+    training = training)
+
+  conv1 = tf.layers.conv2d(
+    inputs = batch1,
     strides = (2,2),
     filters = 32,
     kernel_size = [5, 5],
