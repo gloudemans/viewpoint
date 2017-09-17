@@ -129,18 +129,28 @@ def deepnn(x):
     inputs = flat,
     training = training)
 
-  dense = tf.layers.dense(
+  dense1 = tf.layers.dense(
     inputs = batch5, 
     units = 1024,
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     activation = tf.nn.elu)
 
   batch6 = tf.layers.batch_normalization(
-    inputs = dense,
+    inputs = dense1,
+    training = training)
+  
+  dense2 = tf.layers.dense(
+    inputs = batch6, 
+    units = 1024,
+    kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
+    activation = tf.nn.elu)
+  
+  batch7 = tf.layers.batch_normalization(
+    inputs = dense2,
     training = training)
   
   y_conv = tf.layers.dense(
-    inputs = batch6,
+    inputs = batch7,
     kernel_initializer = tf.contrib.layers.variance_scaling_initializer(),
     units = 1)
 
